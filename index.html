@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartShop</title>
+  <!-- Flowbite + daisyUI + Tailwind via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { corePlugins: { container: false } };</script>
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body class="bg-base-200 overflow-x-hidden">
+
+   <!-- 1. NAVBAR -->
+  <nav class="sticky top-0 z-40 bg-base-100 shadow">
+    <div class="navbar container px-4">
+    <div class="navbar-start">
+      <!-- mobile menu -->
+      <div class="dropdown lg:hidden">
+        <label tabindex="0" class="btn btn-ghost btn-square">☰</label>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-44">
+          <li><a href="#home" data-link="home">Home</a></li>
+          <li><a href="#products" data-link="products">Products</a></li>
+          <li><a href="#reviews" data-link="reviews">Reviews</a></li>
+          <li><a href="#contact" data-link="contact">Contact</a></li>
+        </ul>
+      </div>
+      <span class="text-lg sm:text-xl font-bold text-primary">SmartShop</span>
+    </div>
+    <!-- desktop menu -->
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal">
+        <li><a href="#home" data-link="home">Home</a></li>
+        <li><a href="#products" data-link="products">Products</a></li>
+        <li><a href="#reviews" data-link="reviews">Reviews</a></li>
+        <li><a href="#contact" data-link="contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="navbar-end">
+      <span class="badge badge-primary sm:badge-lg whitespace-nowrap">৳ <span id="balance">1000</span></span>
+    </div>
+    </div>
+  </nav>
+
+  <!-- 2. SLIDING BANNER (Flowbite carousel, auto + manual) -->
+  <section id="home" class="container p-4">
+    <div class="relative" data-carousel="slide" data-carousel-interval="3000">
+      <div class="relative h-56 md:h-96 overflow-hidden rounded-box">
+        <div class="hidden duration-700" data-carousel-item>
+          <img src="img/p1.jpg" class="w-full h-full object-cover" alt="Slide 1" />
+        </div>
+        <div class="hidden duration-700" data-carousel-item>
+          <img src="img/p2.jpg" class="w-full h-full object-cover" alt="Slide 2" />
+        </div>
+        <div class="hidden duration-700" data-carousel-item>
+          <img src="img/p3.jpg" class="w-full h-full object-cover" alt="Slide 3" />
+        </div>
+      </div>
+      <button class="btn btn-circle btn-sm absolute left-2 top-1/2 z-30" data-carousel-prev>❮</button>
+      <button class="btn btn-circle btn-sm absolute right-2 top-1/2 z-30" data-carousel-next>❯</button>
+    </div>
+  </section>
+
+  <!-- 3 + 4. PRODUCTS and CART -->
+  <section id="products" class="container p-4">
+    <h2 class="text-3xl font-bold mb-3">Products</h2>
+
+    <!-- Additional feature: search + category filter -->
+    <div class="flex flex-col sm:flex-row gap-2 mb-4">
+      <input id="search" class="input input-bordered w-full" placeholder="Search products..." />
+      <select id="category" class="select select-bordered w-full sm:w-48">
+        <option value="all">All</option>
+      </select>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6 items-start">
+      <div id="product-list" class="lg:col-span-2 grid sm:grid-cols-2 gap-4">
+        <span class="loading loading-spinner"></span>
+      </div>
+
+      <aside class="bg-base-100 rounded-box shadow p-4 lg:sticky lg:top-20">
+        <h3 class="text-xl font-bold mb-2">Cart</h3>
+        <ul id="cart-list" class="text-sm divide-y"></ul>
+
+        <!-- 5. COUPON -->
+        <div class="join w-full mt-3">
+          <input id="coupon" class="input input-bordered input-sm join-item w-full" placeholder="Coupon (SMART10)" />
+          <button id="apply" class="btn btn-sm btn-neutral join-item">Apply</button>
+        </div>
+
+        <div class="text-sm mt-3 space-y-1">
+          <p class="flex justify-between"><span>Subtotal</span><span id="subtotal">0</span></p>
+          <p class="flex justify-between"><span>Delivery</span><span id="delivery">0</span></p>
+          <p class="flex justify-between"><span>Shipping</span><span id="shipping">0</span></p>
+          <p class="flex justify-between text-success"><span>Discount</span><span id="discount">0</span></p>
+          <p class="flex justify-between font-bold text-lg border-t pt-1"><span>Total</span><span id="total">0</span></p>
+        </div>
+        <button id="buy" class="btn btn-primary w-full mt-3">Buy now</button>
+        <p id="msg" class="text-sm mt-2 min-h-[1.25rem]"></p>
+
+        <!-- 7. ADD MONEY -->
+        <div class="join w-full mt-3">
+          <input id="money" type="number" min="1" class="input input-bordered input-sm join-item w-full" placeholder="Add money" />
+          <button id="add-money" class="btn btn-sm btn-accent join-item">Add</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 6. REVIEWS (auto + manual) -->
+  <section id="reviews" class="container p-4">
+    <h2 class="text-3xl font-bold mb-3">Reviews</h2>
+    <div class="bg-base-100 rounded-box shadow p-6 text-center">
+      <p id="rv-name" class="font-bold text-lg"></p>
+      <p id="rv-stars" class="text-warning"></p>
+      <p id="rv-comment" class="my-2"></p>
+      <p id="rv-date" class="text-xs opacity-60"></p>
+      <div class="join mt-4">
+        <button id="rv-prev" class="btn btn-sm join-item">❮</button>
+        <button id="rv-next" class="btn btn-sm join-item">❯</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+<section id="contact" class="container mx-auto p-4 flex flex-col items-center">
+
+    <h2 class="text-3xl font-bold mb-3">Contact</h2>
+
+    <!-- Contact Info -->
+    <div class="space-y-1 break-words mb-6 text-center">
+        <p>Email: support@smartshop.com</p>
+        <p>Phone: +880 1700-000000</p>
+        <p>Address: Chattogram, Bangladesh</p>
+    </div>
+
+    <!-- Contact Form -->
+    <form id="contactForm" class="space-y-4 w-full max-w-lg">
+
+        <!-- Name -->
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">
+                Name
+            </label>
+
+            <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                placeholder="Your Name"
+            >
+        </div>
+
+        <!-- Email -->
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">
+                Email
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                placeholder="you@example.com"
+            >
+        </div>
+
+        <!-- Message -->
+        <div>
+            <label for="message" class="block text-sm font-medium text-gray-700">
+                Message
+            </label>
+
+            <textarea
+                id="message"
+                name="message"
+                rows="4"
+                required
+                class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2"
+                placeholder="Write your message..."
+            ></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+            type="submit"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
+        >
+            Send Message
+        </button>
+
+        <!-- Success Message -->
+        <p
+            id="successMessage"
+            class="hidden text-green-600 font-semibold text-center"
+            role="status"
+            aria-live="polite"
+        >
+            Message sent successfully!
+        </p>
+
+    </form>
+</section>
+
+
+
+  <!-- 9. FOOTER -->
+  <footer class="footer footer-center bg-neutral text-neutral-content p-6 mt-6">
+    <nav class="flex flex-wrap justify-center gap-4">
+      <a class="link link-hover" href="#home">Home</a>
+      <a class="link link-hover" href="#products">Products</a>
+      <a class="link link-hover" href="#reviews">Reviews</a>
+      <a class="link link-hover" href="#contact">Contact</a>
+    </nav>
+    <p>support@smartshop.com | +880 1700-000000</p>
+    <button class="btn btn-primary btn-sm" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">Back to top ↑</button>
+    <p>© 2026 SmartShop. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

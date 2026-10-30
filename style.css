@@ -1,0 +1,22 @@
+:root {
+  /* 1 rem = 16 px */
+  --container-width-lg: 80%;
+}
+ 
+.container {
+  width: var(--container-width-lg);
+  margin: 0 auto;
+}
+ 
+/* navbar content uses the same width as the page (daisyUI sets .navbar to 100%) */
+.navbar.container { width: var(--container-width-lg); }
+ 
+/* wider container on small screens */
+@media (max-width: 768px) {
+  :root { --container-width-lg: 95%; }
+}
+ 
+/* Only what Tailwind classes cannot do */
+html { scroll-behavior: smooth; }
+section[id] { scroll-margin-top: 4.5rem; } /* keeps titles below the sticky navbar */
+.menu li > a.active { background: #570df8; color: #fff; } /* active navbar link */
