@@ -1,4 +1,4 @@
-//Settings and state
+
 const USD_TO_BDT = 110; // API prices are in USD
 const DELIVERY = 60;
 const SHIPPING = 40;
